@@ -15,7 +15,7 @@ exports.up = function (knex) {
       tbl
         .integer("role")
         .unsigned()
-        .defaultTo("user")
+        .defaultTo(2)
         .references("roles.id")
         .onDelete("RESTRICT")
         .onUpdate("CASCADE")
