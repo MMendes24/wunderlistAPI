@@ -4,7 +4,6 @@
   "description": "Backend Repo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon index.js",
     "start": "node index.js"
   },
@@ -20,7 +19,6 @@
   },
   "homepage": "https://github.com/bw-wunderlist-3/Backend#readme",
   "dependencies": {
-    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -32,7 +30,6 @@
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
-    "jest": "^26.4.2",
     "nodemon": "^2.0.3",
     "supertest": "^4.0.2"
   }
