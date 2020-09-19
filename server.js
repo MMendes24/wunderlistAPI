@@ -12,7 +12,7 @@ server.use(express.json())
 server.use(cors())
 
 server.get("/", (req, res) => {
-    res.sendFile("index.html", { root: __dirname })
+    res.sendFile("doc.html", { root: __dirname })
 })
 
 server.use("/api/users", usersRouter)
