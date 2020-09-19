@@ -11,7 +11,7 @@ server.use(express.json())
 server.use(cors())
 
 server.get("/", (req, res) => {
-  res.json({ api: "up" })
+    res.sendFile("index.html", { root: __dirname })
 })
 
 module.exports = server
