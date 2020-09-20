@@ -7,10 +7,20 @@ const Users = require("./user-model.js")
 router.get("/", restricted, checkRole("admin"), (req, res) => {
   Users.find()
     .then((users) => {
-      res.status(200).json({ data: users, jwt: req.jwt })
+      res.status(200).json({ data: users, current_user: req.jwt })
     })
     .catch((err) => res.send(err))
 })
+
+router.get("/:id", restricted, checkRole("admin"), (req, res) => {
+  Users.findById(req.params.id)
+    .then((users) => {
+      res.status(200).json({ data: users, current_user: req.jwt })
+    })
+    .catch((err) => res.send(err))
+})
+
+
 
 router.post("/register", (req, res) => {
   const credentials = req.body
@@ -62,6 +72,34 @@ router.post("/login", (req, res) => {
     res.status(400).json({
       message: "please provide username and the password",
     })
+  }
+})
+
+router.delete("/:id", restricted, checkRole("admin"), (req, res) => {
+  const id = req.params.id
+  if (Users.findById(id)) {
+    Users.remove(id)
+      .then((user) => {
+        res.status(200).json({ message: "user has been removed", user_id: id })
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err.message })
+      })
+  } else {
+    res.status(400).json({message: "wrong id"})
+  }
+})
+
+router.put("/:id", restricted, (req, res) => {
+  const id = req.params.id
+  if (Users.findById(id)) {
+    Users.update(req.body, id)
+      .then((user) => {
+        res.status(200).json({ message: "user has been updated" })
+      })
+      .catch((err) => {
+        res.status(500).json({ message: "no data found in the request",error: err.message })
+      })
   }
 })
 
