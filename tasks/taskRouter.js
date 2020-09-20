@@ -1,5 +1,8 @@
 const router = require("express").Router()
+
 const Tasks = require('./taskModel')
+
+const taskAuthenticator = require('./taskAuthenticator')
 
 router.get('/', (req, res) => {
     Tasks.find()
@@ -7,69 +10,110 @@ router.get('/', (req, res) => {
             res.status(200).json(thenRes)
         })
         .catch(err => {
-            console.log("test error")
+            res.status(500).json({ error: "Internal server error." })
         })
 })
 
 router.get('/:id', (req, res) => {
-    Tasks.findById(req.params.id)
+    const id = req.params.id
+
+    Tasks.findById(id)
         .then(thenRes => {
-            res.status(200).json(thenRes)
+            if (thenRes) {
+                res.status(200).json(thenRes)
+            } else {
+                res.status(404).json({ error: "Record does not exist." })
+            }
         })
         .catch(err => {
-            console.log("test error")
+            res.status(500).json({ error: "Internal server error." })
         })
 })
 
 router.get('/user/:id', (req, res) => {
-    const id  = req.params.id
+    const id = req.params.id
 
     Tasks.findByUserId(id)
         .then(thenRes => {
-            res.status(200).json(thenRes)
+            if(thenRes[0]) {
+                res.status(200).json(thenRes)
+            } else {
+                res.status(404).json({ error: "Record does not exist." })
+            }
         })
         .catch(err => {
-            console.log("test error")
+            res.status(500).json({ error: "Internal server error." })
         })
 })
 
 router.post('/', (req, res) => {
     const newTask = req.body
+    const legitTask = taskAuthenticator(newTask)
 
-    Tasks.create(newTask)
-        .then(thenRes => {
-            res.status(201).json(newTask)
-        })
-        .catch(err => {
-            res.status(500).json({ error: "what" })
-        })
+    if (legitTask) {
+        Tasks.create(newTask)
+            .then(thenRes => {
+                res.status(201).json(newTask)
+            })
+            .catch(err => {
+                res.status(500).json(
+                    {
+                        error: "Internal server error."
+                    })
+            })
+    } else {
+        res.status(400).json({
+            message: "Please provide a task and a user ID.",
+        });
+    }
 })
 
 router.put('/:id', (req, res) => {
     const editedTask = req.body
-    const id  = req.params.id
+    const id = req.params.id
+    const legitTask = taskAuthenticator(editedTask)
 
-    Tasks.edit(id, editedTask)
-        .then(thenRes => {
-            res.status(201).json(editedTask)
-        })
-        .catch(err => {
-            res.status(500).json({ error: "what" })
-        })
+    if (legitTask) {
+        Tasks.edit(id, editedTask)
+            .then(thenRes => {
+                if (thenRes) {
+                    res.status(204).json(editedTask)
+                } else {
+                    res.status(404).json({ error: "Record does not exist." })
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ error: "Internal server error." })
+            })
+    } else {
+        res.status(400).json({
+            message: "Please provide a task and a user ID.",
+        });
+    }
 })
 
 router.delete('/:id', (req, res) => {
-    const id  = req.params.id
+    const id = req.params.id
+    const realId = idAuthenticator(id)
 
-    Tasks.remove(id)
-        .then(thenRes => {
-            res.status(200).json(thenRes)
-        })
-        .catch(err => {
-            console.log("test error")
-        })
+    if (realId) {
+        Tasks.remove(id)
+            .then(thenRes => {
+                if (thenRes) {
+                    res.status(200).json(thenRes)
+                } else {
+                    res.status(404).json({ error: "Record does not exist." })
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ error: "Internal server error." })
+            })
+    } else {
+        res.status(404).json({
+            message: "That task does not exist",
+        });
+    }
 })
-
 
 
 module.exports = router
