@@ -1,5 +1,4 @@
 exports.seed = function (knex) {
-  // no tasks to seed currently since there are no users to corroborate them with
   return knex("tasks").insert([
     {
       task: "buy groceries",
@@ -10,6 +9,6 @@ exports.seed = function (knex) {
       task: "defeat Wyoming",
       completed: false,
       user_id: 1
-    },
+    }
   ])
 }

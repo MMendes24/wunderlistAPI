@@ -23,7 +23,10 @@ exports.up = function (knex) {
     .createTable("tasks", tbl => {
       tbl.increments()
       tbl.string("task", 128).notNullable()
-      tbl.boolean("completed").notNullable()
+      
+      tbl.boolean("completed")
+      .notNullable()
+      .defaultTo(false)
 
       tbl.integer("user_id")
       .unsigned()
