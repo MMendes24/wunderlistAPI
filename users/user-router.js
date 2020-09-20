@@ -16,7 +16,7 @@ router.post("/register", (req, res) => {
   const credentials = req.body
 
   if (isValid(credentials)) {
-   const rounds = process.env.HASH_ROUNDS || 4
+    const rounds = process.env.HASH_ROUNDS || 4
     const hash = bcryptjs.hashSync(credentials.password, Number(rounds))
     credentials.password = hash
 
@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
       })
   } else {
     res.status(400).json({
-      message: "please provide username and password",
+      message: "please provide username, password, name and email",
     })
   }
 })
@@ -38,13 +38,19 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   const { username, password } = req.body
 
-  if (isValid(req.body)) {
+  if (Boolean(username && password)) {
     Users.findBy({ username: username })
       .then(([user]) => {
         if (user && bcryptjs.compareSync(password, user.password)) {
           const token = makeJwt(user)
 
-          res.status(200).json({ message: "welcome back", token })
+          res
+            .status(200)
+            .json({
+              message: "welcome back",
+              data: { user_id: user.id, username: user.username, },
+              token,
+            })
         } else {
           res.status(401).json({ message: "Invalid credentials" })
         }
@@ -53,17 +59,19 @@ router.post("/login", (req, res) => {
         res.status(500).json({ message: error.message })
       })
   } else {
-    res
-      .status(400)
-      .json({
-        message: "please provide username and password and the password",
-      })
+    res.status(400).json({
+      message: "please provide username and the password",
+    })
   }
 })
 
 function isValid(user) {
   return Boolean(
-    user.username && user.password && typeof user.password === "string"
+    user.username &&
+      user.password &&
+      user.name &&
+      user.email &&
+      typeof user.password === "string"
   )
 }
 
