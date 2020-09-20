@@ -31,10 +31,14 @@ function create(task) {
         .insert(task)
 }
 
-function remove() {
+function remove(id) {
     return db('tasks')
+        .where('id', id)
+        .del()
 }
 
-function edit() {
+function edit(id, changes) {
     return db('tasks')
+    .where('id', id)
+    .update(changes)
 }
