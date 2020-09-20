@@ -20,8 +20,24 @@ exports.up = function (knex) {
         .onDelete("RESTRICT")
         .onUpdate("CASCADE")
     })
+    .createTable("tasks", tbl => {
+      tbl.increments()
+      tbl.string("task", 128).notNullable()
+      
+      tbl.boolean("completed")
+      .notNullable()
+      .defaultTo(false)
+
+      tbl.integer("user_id")
+      .unsigned()
+      .notNullable()
+      .references("id")
+      .inTable("users")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
+    })
 }
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("roles").dropTableIfExists("users")
+  return knex.schema.dropTableIfExists("tasks").dropTableIfExists("users").dropTableIfExists("roles")
 }
