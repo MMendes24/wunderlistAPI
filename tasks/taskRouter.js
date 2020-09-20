@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
             res.status(200).json(thenRes)
         })
         .catch(err => {
-            res.status(500).json({ error: "Internal server error." })
+            res.status(500).json({ errorMessage: "Internal server error." })
         })
 })
 
@@ -22,11 +22,11 @@ router.get('/:id', (req, res) => {
             if (thenRes) {
                 res.status(200).json(thenRes)
             } else {
-                res.status(404).json({ error: "Record does not exist." })
+                res.status(404).json({ errorMessage: "Record does not exist." })
             }
         })
         .catch(err => {
-            res.status(500).json({ error: "Internal server error." })
+            res.status(500).json({ errorMessage: "Internal server error." })
         })
 })
 
@@ -35,14 +35,14 @@ router.get('/user/:id', (req, res) => {
 
     Tasks.findByUserId(id)
         .then(thenRes => {
-            if(thenRes[0]) {
+            if (thenRes[0]) {
                 res.status(200).json(thenRes)
             } else {
-                res.status(404).json({ error: "Record does not exist." })
+                res.status(404).json({ errorMessage: "Record does not exist." })
             }
         })
         .catch(err => {
-            res.status(500).json({ error: "Internal server error." })
+            res.status(500).json({ errorMessage: "Internal server error." })
         })
 })
 
@@ -56,15 +56,10 @@ router.post('/', (req, res) => {
                 res.status(201).json(newTask)
             })
             .catch(err => {
-                res.status(500).json(
-                    {
-                        error: "Internal server error."
-                    })
+                res.status(500).json({ errorMessage: "Internal server error." })
             })
     } else {
-        res.status(400).json({
-            message: "Please provide a task and a user ID.",
-        });
+        res.status(400).json({ message: "Please provide a task and a user ID." });
     }
 })
 
@@ -79,11 +74,11 @@ router.put('/:id', (req, res) => {
                 if (thenRes) {
                     res.status(204).json(editedTask)
                 } else {
-                    res.status(404).json({ error: "Record does not exist." })
+                    res.status(404).json({ errorMessage: "Record does not exist." })
                 }
             })
             .catch(err => {
-                res.status(500).json({ error: "Internal server error." })
+                res.status(500).json({ errorMessage: "Internal server error." })
             })
     } else {
         res.status(400).json({
@@ -94,25 +89,18 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const id = req.params.id
-    const realId = idAuthenticator(id)
 
-    if (realId) {
-        Tasks.remove(id)
-            .then(thenRes => {
-                if (thenRes) {
-                    res.status(200).json(thenRes)
-                } else {
-                    res.status(404).json({ error: "Record does not exist." })
-                }
-            })
-            .catch(err => {
-                res.status(500).json({ error: "Internal server error." })
-            })
-    } else {
-        res.status(404).json({
-            message: "That task does not exist",
-        });
-    }
+    Tasks.remove(id)
+        .then(thenRes => {
+            if (thenRes) {
+                res.status(200).json(thenRes)
+            } else {
+                res.status(404).json({ errorMessage: "Record does not exist." })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: "Internal server error." })
+        })
 })
 
 

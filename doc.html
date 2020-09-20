@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wunderlist API</title>
-  </head>
-  <body>
-    <h1 style="text-align: center">Wunderlist backend API</h1>
-    <section>
-      <h2>End Points</h2>
-      <h3>Users</h3>
-      <div style="border: 1px solid grey; margin: 1% 0">
-        <p>/api/users/register <em>(POST)</em></p>
-        <div style="background-color: lightgray; padding: 2%">
-          <code>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wunderlist API</title>
+</head>
+
+<body>
+  <h1 style="text-align: center">Wunderlist backend API</h1>
+  <section>
+    <h2>End Points</h2>
+    <h3>Users</h3>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/users/register <em>(POST)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
               <p>Request body:</p>
             <p>{</p>
             <p>"username": "one111", //required</p>
@@ -24,31 +26,97 @@
             <p>"role": 1</p>
             <p>}</p>
           </code>
-        </div>
       </div>
-      <div style="border: 1px solid grey; margin: 1% 0">
-        <p>/api/users/login <em>(POST)</em></p>
-        <div style="background-color: lightgray; padding: 2%">
-          <code>
+    </div>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/users/login <em>(POST)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
               <p>Request body:</p>
             <p>{</p>
             <p>"username": "one111", //required</p>
             <p>"password": "one111", //required</p>
             <p>}</p>
           </code>
-        </div>
       </div>
-      <div style="border: 1px solid grey; margin: 1% 0">
-        <p>/api/users <em>(GET)</em></p>
-        <div style="background-color: lightgray; padding: 2%">
-          <code>
+    </div>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/users <em>(GET)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
               <p>Request header:</p>
             <p>{</p>
             <p>"Authrization": token, //required</p>
             <p>}</p>
           </code>
-        </div>
       </div>
-    </section>
-  </body>
+    </div>
+    <h3>Tasks</h3>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/tasks <em>(GET)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
+            <p>"Authrization": token, //required</p>
+              <p>Request body:</p>
+          </code>
+      </div>
+    </div>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/tasks/:id <em>(GET a single task via ID)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
+            <p>"Authrization": token, //required</p>
+              <p>Request body:</p>
+          </code>
+      </div>
+    </div>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/tasks/user/:id <em>(GET all tasks belonging to a single user)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
+            <p>"Authrization": token, //required</p>
+              <p>Request body:</p>
+          </code>
+      </div>
+    </div>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/tasks <em>(POST)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
+            <p>"Authrization": token, //required</p>
+              <p>Request body:</p>
+            <p>{
+              <p>"task":"the thing to do" //required</p>
+              <p>"used_id": 1 //required integer, user the task belongs to</p>
+              <p>"completed": boolean //defaults to false, can be either true or false</p>
+            <p>}
+          </code>
+      </div>
+    </div>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/tasks/:id <em>(PUT, requires same fields as POST but updates a task)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
+              <p>"Authrization": token, //required</p>
+              <p>Request body:</p>
+            <p>{
+              <p>"task":"the thing to do" //required</p>
+              <p>"used_id": 1 //required integer, user the task belongs to</p>
+              <p>"completed": boolean //defaults to false, can be either true or false</p>
+            <p>}
+          </code>
+      </div>
+    </div>
+    <div style="border: 1px solid grey; margin: 1% 0">
+      <p>/api/tasks/:id <em>(DELETE)</em></p>
+      <div style="background-color: lightgray; padding: 2%">
+        <code>
+            <p>"Authrization": token, //required</p>
+              <p>Request body:</p>
+          </code>
+      </div>
+    </div>
+  </section>
+</body>
+
 </html>
