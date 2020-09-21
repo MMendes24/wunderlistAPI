@@ -4,7 +4,7 @@ const knex = require("knex")
 
 const knexfile = require("../knexfile.js")
 
-// const environment = process.env.NODE_ENV || "development"
+const environment = process.env.NODE_ENV || "development"
 
 /*
 To run tests in development here is what you do:
@@ -15,7 +15,7 @@ npm test
 tests now run on test database
 */
 
-const environment = "testing"
+// const environment = "testing"
 
 /*
 There is an error when using jest for testing, it seems jest cannot read .env file.
