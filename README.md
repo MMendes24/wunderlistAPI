@@ -32,7 +32,7 @@ Users need to register and login to get access to the task interface.
 
     phone and role are **optional.**
 
-    There are two roles, which are **1 - admin** and **2 - user**. If the role is not specified in the request, it will be set to 2 by default. If the user's role are explictly set to 1, the user will have the admin privilage.
+    There are two type of user role, which are **1 - admin** and **2 - user**. If the role is not specified in the request, it will be set to 2 by default. If the user's role are explictly set to 1, the user will have the admin privilage.
 
 * /api/users/login (POST)
 
@@ -43,7 +43,7 @@ Users need to register and login to get access to the task interface.
         "password": "one111",
         }
     ```
-    The response of the login request returned the token as well as the user's id.
+    API returns a token as well as the user's id.
 
 * /api/users (GET)
 
@@ -65,6 +65,8 @@ Users need to register and login to get access to the task interface.
     User needs to be logged in.
 
 ### Tasks
+
+All the task end points require a token to get access.
 
 * /api/tasks (GET)
 
