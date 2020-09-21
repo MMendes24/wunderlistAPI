@@ -1,11 +1,12 @@
 require("dotenv").config()
+
 const express = require("express")
 const helmet = require("helmet")
 const cors = require("cors")
 
-const usersRouter = require("./users/user-router")
-const taskRouter = require ("./tasks/taskRouter")
-const taskRestrictor = require('./tasks/taskRestrictor')
+const usersRouter = require("../users/user-router")
+const taskRouter = require ("../tasks/taskRouter")
+const taskRestrictor = require('../tasks/taskRestrictor')
 
 const server = express()
 
