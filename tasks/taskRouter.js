@@ -48,19 +48,14 @@ router.get('/user/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     const newTask = req.body
-    const legitTask = taskAuthenticator(newTask)
-
-    if (legitTask) {
-        Tasks.create(newTask)
-            .then(thenRes => {
-                res.status(201).json(newTask)
-            })
-            .catch(err => {
-                res.status(500).json({ errorMessage: "Internal server error." })
-            })
-    } else {
-        res.status(400).json({ message: "Please provide a task and a user ID." });
-    }
+    
+    Tasks.create(newTask)
+        .then(thenRes => {
+            res.status(201).json(newTask)
+        })
+        .catch(err => {
+            res.status(400).json({ errorMessage: "Incorrectly shaped data." })
+        })
 })
 
 router.put('/:id', (req, res) => {
