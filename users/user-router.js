@@ -20,8 +20,6 @@ router.get("/:id", restricted, checkRole("admin"), (req, res) => {
     .catch((err) => res.send(err))
 })
 
-
-
 router.post("/register", (req, res) => {
   const credentials = req.body
 
@@ -54,13 +52,11 @@ router.post("/login", (req, res) => {
         if (user && bcryptjs.compareSync(password, user.password)) {
           const token = makeJwt(user)
 
-          res
-            .status(200)
-            .json({
-              message: "welcome back",
-              data: { user_id: user.id, username: user.username, },
-              token,
-            })
+          res.status(200).json({
+            message: "welcome back",
+            data: { user_id: user.id, username: user.username },
+            token,
+          })
         } else {
           res.status(401).json({ message: "Invalid credentials" })
         }
@@ -80,13 +76,19 @@ router.delete("/:id", restricted, checkRole("admin"), (req, res) => {
   if (Users.findById(id)) {
     Users.remove(id)
       .then((user) => {
-        res.status(200).json({ message: "user has been removed", user_id: id })
+        if (user) {
+          res
+            .status(200)
+            .json({ message: "user has been removed", user_id: id })
+        } else {
+          res.status(404).json({ message: "not found" })
+        }
       })
       .catch((err) => {
         res.status(500).json({ message: err.message })
       })
   } else {
-    res.status(400).json({message: "wrong id"})
+    res.status(400).json({ message: "wrong id" })
   }
 })
 
@@ -95,10 +97,16 @@ router.put("/:id", restricted, (req, res) => {
   if (Users.findById(id)) {
     Users.update(req.body, id)
       .then((user) => {
-        res.status(200).json({ message: "user has been updated" })
+        if (user) {
+          res.status(200).json({ message: "user has been updated" })
+        } else {
+          res.status(404).json({ message: "not found" })
+        }
       })
       .catch((err) => {
-        res.status(500).json({ message: "no data found in the request",error: err.message })
+        res
+          .status(500)
+          .json({ message: "no data found in the request", error: err.message })
       })
   }
 })
