@@ -88,11 +88,12 @@ All the task end points require a token to get access.
     ```
         {
         "task": "something to do",
+        "date": "12-05-2020",
         "user_id": 1,
         "completed": false,
         }
     ```
-    task and user_id are **required**
+    task, date and user_id are **required**
 
     completed is **optional** and defaulted to false. 
 
