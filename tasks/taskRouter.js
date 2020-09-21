@@ -48,8 +48,7 @@ router.get('/user/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     const newTask = req.body
-    const legitTask = taskAuthenticator(newTask)
-
+    
     Tasks.create(newTask)
         .then(thenRes => {
             res.status(201).json(newTask)
