@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
         .catch(err => {
             res.status(500).json({ errorMessage: "Internal server error." })
         })
-})
+}) 
 
 router.get('/user/:id', (req, res) => {
     const id = req.params.id
